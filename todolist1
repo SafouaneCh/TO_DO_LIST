@@ -165,7 +165,7 @@ Show_Task() {
 Filter_By_Status() {
     read -p "_Enter the status to filter by (ongoing, completed): " status
     echo "Tasks with status '$status':"
-    find "$TODO_DIR" -type f -name "*.txt" -exec grep -l "- Status: $status" {} \;
+    find "$TODO_DIR" -type f -name "*.txt" -exec grep -l -- "- Status: $status" {} \;
 }
 
 Filter_By_Priority() {
