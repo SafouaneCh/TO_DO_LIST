@@ -256,7 +256,7 @@ Alarm_Task() {
     if [ -z "$task" ]; then
         read -p "Which task do you want to set an alarm for? " task
     fi
-    task_path="$TODO_DIR/$task/Task$task.txt"
+    task_path="$TODO_DIR/Task$task/Task$task.txt"
     if [ -f "$task_path" ]; then
         read -p "Enter the alarm time (e.g., 5 minutes): " alarm_time
         sleep "$alarm_time" && notify-send "Reminder: Task $task is due now!"
