@@ -23,8 +23,8 @@ _To run the scripts from anywhere on your system, you need to create symbolic li
 Run these commands:
 
 
+sudo ln -s $(pwd)/todolist1 /usr/local/bin/todolist1
 sudo ln -s $(pwd)/todolist /usr/local/bin/todolist
-sudo ln -s $(pwd)/Todolist /usr/local/bin/Todolist
 
 This will create symbolic links for the todolist and Todolist scripts, allowing you to run them from any terminal window.
 
@@ -50,20 +50,11 @@ Available Commands
 
 Example Usage
 
-todolist -a
-todolist -v
-todolist -e Task1
-Todolist
-This script provides a menu-based interface for managing your to-do lists. Simply run the script and follow the prompts.
+todolist1 -a
+todolist1 -v
+todolist1 -e Task1
 
-Example Usage
 
-Todolist
-Contributing
-If you have any suggestions or improvements, please feel free to create an issue or submit a pull request.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 
 This condensed version provides all the necessary steps for installation, usage, and contribution in one block of text.
