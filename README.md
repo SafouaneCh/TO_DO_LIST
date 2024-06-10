@@ -24,13 +24,15 @@ Run these commands:
 
 
 sudo ln -s $(pwd)/todolist1 /usr/local/bin/todolist1
+
+
 sudo ln -s $(pwd)/todolist /usr/local/bin/todolist
 
 This will create symbolic links for the todolist and Todolist scripts, allowing you to run them from any terminal window.
 
 Usage
 
-todolist
+todolist1
 This script provides various functionalities for managing tasks.
 
 Available Commands
