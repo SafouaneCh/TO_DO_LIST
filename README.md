@@ -96,4 +96,3 @@ todolist1 -e Task1
 
 ---
 
-This version provides a clean, structured format that enhances readability and usability. Each section is clearly defined, and code blocks are used for commands, making it easier for users to follow the instructions.
