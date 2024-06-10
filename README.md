@@ -4,7 +4,7 @@
 
 # To-Do List Tools
 
-This repository contains two scripts for managing to-do lists: `todolist1` and `todolist`.
+This repository contains two scripts for managing to-do list: `todolist1` 
 
 ## Installation
 
@@ -20,7 +20,7 @@ cd to_do_list
 ### 2. Make the Scripts Executable
 
 ```bash
-chmod +x todolist1 todolist
+chmod +x todolist1 
 ```
 
 ### 3. Add Scripts to PATH
@@ -31,7 +31,7 @@ Run these commands:
 
 ```bash
 sudo ln -s $(pwd)/todolist1 /usr/local/bin/todolist1
-sudo ln -s $(pwd)/todolist /usr/local/bin/todolist
+
 ```
 
 This will create symbolic links for the `todolist1` and `todolist` scripts, allowing you to run them from any terminal window.
