@@ -171,7 +171,7 @@ Filter_By_Status() {
 Filter_By_Priority() {
     read -p "_Enter the priority to filter by (high, medium, low): " priority
     echo "Tasks with priority '$priority':"
-    find "$TODO_DIR" -type f -name "*.txt" -exec grep -l "- Priority: $priority" {} \;
+    find "$TODO_DIR" -type f -name "*.txt" -exec grep -l -- "- Priority: $priority" {} + | xargs -I {} basename {} .txt
 }
 
 Export_Tasks() {
