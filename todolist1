@@ -139,28 +139,36 @@ Remove_Subtask() {
 
 Show_Task() {
     task="$1"
+    
     if [ -z "$task" ]; then
         read -p "Which task do you wish to view? " task
     fi
+    
     task_path="$TODO_DIR/$task"
+    
     if [ -d "$task_path" ]; then
+        echo "Task Details:"
+        echo "-------------"
+        
         for j in "$task_path"/*; do
             if [[ "$(basename "$j")" == Task* ]]; then
-                echo "The main task is:"
-                echo
+                echo "Main Task:"
+                echo "----------"
                 cat "$j"
                 echo
             elif [[ "$(basename "$j")" == Sub* ]]; then
-                echo "The sub-tasks are:"
-                echo
+                echo "Sub-Task:"
+                echo "---------"
                 cat "$j"
                 echo
             fi
         done
     else
-        echo "No such task"
+        echo "No such task found in $TODO_DIR."
     fi
 }
+
+
 
 Filter_By_Status() {
     read -p "_Enter the status to filter by (ongoing, completed): " status
@@ -181,19 +189,35 @@ Export_Tasks() {
     else
         archive_name="$TODO_DIR/${user_archive_name}.tar.gz"
     fi
-    tar -cvf "$archive_name" -C "$TODO_DIR" .
+
+    # Suppress the tar output
+    tar -czf "$archive_name" -C "$TODO_DIR" . > /dev/null 2>&1
+
     echo "All tasks have been exported to $archive_name"
 }
 
+
 Import_Tasks() {
     read -p "Enter the name of the archive to import tasks from: " archive_name
+
+    if [[ ! "$archive_name" =~ \.tar\.gz$ ]]; then
+        archive_name="$archive_name.tar.gz"
+    fi
+
     if [ -f "$archive_name" ]; then
-        tar -xvf "$archive_name" -C "$TODO_DIR"
-        echo "Tasks have been imported from $archive_name"
+        # Extract without verbose output and redirect errors to avoid clutter
+        tar -xzf "$archive_name" -C "$TODO_DIR" 2>/dev/null
+        
+        if [ $? -eq 0 ]; then
+            echo "All tasks have been imported from $archive_name."
+        else
+            echo "There was an issue importing tasks from $archive_name."
+        fi
     else
-        echo "Archive file $archive_name not found"
+        echo "Archive file $archive_name not found."
     fi
 }
+
 
 Edit_Task() {
     task="$1"
