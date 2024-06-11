@@ -80,19 +80,29 @@ Add_Task() {
             ;;
     esac
 }
-
 Remove_Task() {
     task="$1"
     if [ -z "$task" ]; then
         read -p "Which task do you want to remove? " task
     fi
     task_path="$TODO_DIR/$task"
+    
+    # Check if the task exists as a directory
     if [ -d "$task_path" ]; then
         rm -rf "$task_path"
         echo "Task '$task' has been removed."
-    else 
-        echo "No such task in the list."
+        return
     fi
+    
+    # Check if the task exists as an imported task
+    imported_task_path=$(find "$TODO_DIR" -type f -name "$task" 2>/dev/null)
+    if [ -n "$imported_task_path" ]; then
+        rm -f "$imported_task_path"
+        echo "Imported task '$task' has been removed."
+        return
+    fi
+    
+    echo "No such task found in the list."
 }
 
 Add_subTask() {
