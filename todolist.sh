@@ -251,20 +251,27 @@ Show_History() {
     fi
 }
 
+
 Alarm_Task() {
-    task="$1"
-    if [ -z "$task" ]; then
-        read -p "Which task do you want to set an alarm for? " task
-    fi
-    task_path="$TODO_DIR/$task/Task$task.txt"
-    if [ -f "$task_path" ]; then
-        read -p "Enter the alarm time (e.g., 5 minutes): " alarm_time
-        sleep "$alarm_time" && notify-send "Reminder: Task $task is due now!"
-        echo "Alarm set for task '$task' at $alarm_time from now."
+    read -p "_Enter the task for which you want to set an alarm: " task
+    task_dir="$TODO_DIR/$task"
+
+    if [ -d "$task_dir" ]; then
+        read -p "Enter the date and time for the alarm (YYYY-MM-DD HH:MM): " datetime
+        timestamp=$(date -d "$datetime" "+%M %H %d %m" 2>/dev/null)
+
+        if [ $? -eq 0 ]; then
+            cron_cmd="echo 'Reminder: Task $task' | mail -s 'Task Reminder' user@example.com"
+            (crontab -l 2>/dev/null; echo "$timestamp * $cron_cmd") | crontab -
+            echo "Reminder set for task '$task' at $datetime"
+        else
+            echo "Invalid date/time format"
+        fi
     else
         echo "No such task"
     fi
 }
+
 
 # Main loop
 case "$1" in
