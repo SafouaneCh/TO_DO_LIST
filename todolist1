@@ -215,7 +215,7 @@ Export_Tasks() {
 
 
 Import_Tasks() {
-    read -p "Enter the name of the archive to import tasks from: " archive_name
+    read -p "Enter the path of the archive to import tasks from: " archive_name
 
     if [[ ! "$archive_name" =~ \.tar\.gz$ ]]; then
         archive_name="$archive_name.tar.gz"
