@@ -40,8 +40,15 @@ Add_Task() {
     read -p "_ What's your task title: " title
     echo "- Title: $title" >> "$task_file"
 
-    read -p "_ What's the deadline of your task: " deadline
-    echo "- Deadline: $deadline" >> "$task_file"
+    while true; do
+        read -p "_ What's the deadline of your task (YYYY-MM-DD): " deadline
+        if [[ $deadline =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "- Deadline: $deadline" >> "$task_file"
+            break
+        else
+            echo "Invalid date format. Please enter the date in the format YYYY-MM-DD."
+        fi
+    done
 
     date=$(date)
     echo "- Added in: $date" >> "$task_file"
@@ -284,8 +291,8 @@ Alarm_Task() {
         timestamp=$(date -d "$datetime" "+%M %H %d %m" 2>/dev/null)
 
         if [ $? -eq 0 ]; then
-            # Generate a unique command for cron using notify-send
-            cron_cmd="DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus notify-send 'Task Reminder' 'Reminder: Task $task'"
+            # Generate a unique command for cron using wall
+            cron_cmd="echo 'Reminder: Task $task' | wall"
             # Create a cron job with the calculated timestamp
             (crontab -l 2>/dev/null; echo "$timestamp * $cron_cmd") | crontab -
             echo "Reminder set for task '$task' at $datetime"
@@ -296,6 +303,11 @@ Alarm_Task() {
         echo "No such task"
     fi
 }
+
+
+
+
+
 
 
 
