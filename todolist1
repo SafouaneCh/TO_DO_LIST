@@ -190,12 +190,14 @@ Show_Task() {
 Filter_By_Status() {
    	read -p "_Enter the status to filter by (ongoing, completed): " status
     echo "Tasks with status '$status':"
+    # xargs lit les noms des fichiers et exécute basename {} .txt
     find "$TODO_DIR" -type f -name "*.txt" -exec grep -l -- "- Status: $status" {} + | xargs -I {} basename {} .txt
 }
 
 Filter_By_Priority() {
     read -p "_Enter the priority to filter by (high, medium, low): " priority
     echo "Tasks with priority '$priority':"
+    # xargs lit les noms des fichiers et exécute basename {} .txt
     find "$TODO_DIR" -type f -name "*.txt" -exec grep -l -- "- Priority: $priority" {} + | xargs -I {} basename {} .txt
 }
 
@@ -207,7 +209,6 @@ Export_Tasks() {
         archive_name="$TODO_DIR/${user_archive_name}.tar.gz"
     fi
 
-    # Suppress the tar output
     tar -czf "$archive_name" -C "$TODO_DIR" . > /dev/null 2>&1
 
     echo "All tasks have been exported to $archive_name"
@@ -222,7 +223,7 @@ Import_Tasks() {
     fi
 
     if [ -f "$archive_name" ]; then
-        # Extract without verbose output and redirect errors to avoid clutter
+        # 2>/dev/null Redirige les messages d'erreur vers /dev/null pour éviter d'encombrer la sortie.
         tar -xzf "$archive_name" -C "$TODO_DIR" 2>/dev/null
         
         if [ $? -eq 0 ]; then
